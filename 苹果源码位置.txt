@@ -1,3 +1,6 @@
 
 源码位置：
 https://opensource.apple.com/tarballs/
+
+将Objective-C代码转换为C\C++代码
+xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc OC源文件 -o 输出的CPP文件
