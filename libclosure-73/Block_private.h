@@ -201,12 +201,12 @@ typedef uintptr_t BlockByrefDestroyFunction;
 // Values for Block_layout->flags to describe block objects
 enum {
     BLOCK_DEALLOCATING =      (0x0001),  // runtime
-    BLOCK_REFCOUNT_MASK =     (0xfffe),  // runtime
-    BLOCK_NEEDS_FREE =        (1 << 24), // runtime
-    BLOCK_HAS_COPY_DISPOSE =  (1 << 25), // compiler
+    BLOCK_REFCOUNT_MASK =     (0xfffe),  // runtime，栈
+    BLOCK_NEEDS_FREE =        (1 << 24), // runtime，堆
+    BLOCK_HAS_COPY_DISPOSE =  (1 << 25), // compiler，copy
     BLOCK_HAS_CTOR =          (1 << 26), // compiler: helpers have C++ code
     BLOCK_IS_GC =             (1 << 27), // runtime
-    BLOCK_IS_GLOBAL =         (1 << 28), // compiler
+    BLOCK_IS_GLOBAL =         (1 << 28), // compiler，全局区
     BLOCK_USE_STRET =         (1 << 29), // compiler: undefined if !BLOCK_HAS_SIGNATURE
     BLOCK_HAS_SIGNATURE  =    (1 << 30), // compiler
     BLOCK_HAS_EXTENDED_LAYOUT=(1 << 31)  // compiler
@@ -234,10 +234,11 @@ struct Block_descriptor_3 {
 
 struct Block_layout {
     void *isa;
-    volatile int32_t flags; // contains ref count
+    volatile int32_t flags; // contains ref count，保存block的信息
     int32_t reserved;
-    BlockInvokeFunction invoke;
-    struct Block_descriptor_1 *descriptor;
+    BlockInvokeFunction invoke; // 函数指针
+    struct Block_descriptor_1 *descriptor; //保存了内存size以及copy和dispose函数的指针及签名和layout等信息,
+                                           //在捕获不同类型变量或者没用到外部变量时，编译器会改变结构体的结构
     // imported variables
 };
 
@@ -249,7 +250,7 @@ enum {
     // BLOCK_REFCOUNT_MASK =     (0xfffe),  // runtime
 
     BLOCK_BYREF_LAYOUT_MASK =       (0xf << 28), // compiler
-    BLOCK_BYREF_LAYOUT_EXTENDED =   (  1 << 28), // compiler
+    BLOCK_BYREF_LAYOUT_EXTENDED =   (  1 << 28), // compiler，表示含有layout
     BLOCK_BYREF_LAYOUT_NON_OBJECT = (  2 << 28), // compiler
     BLOCK_BYREF_LAYOUT_STRONG =     (  3 << 28), // compiler
     BLOCK_BYREF_LAYOUT_WEAK =       (  4 << 28), // compiler
@@ -257,13 +258,13 @@ enum {
 
     BLOCK_BYREF_IS_GC =             (  1 << 27), // runtime
 
-    BLOCK_BYREF_HAS_COPY_DISPOSE =  (  1 << 25), // compiler
-    BLOCK_BYREF_NEEDS_FREE =        (  1 << 24), // runtime
+    BLOCK_BYREF_HAS_COPY_DISPOSE =  (  1 << 25), // compiler，表示byref中含有copy_dispose函数
+    BLOCK_BYREF_NEEDS_FREE =        (  1 << 24), // runtime，判断是否要释放
 };
 
 struct Block_byref {
     void *isa;
-    struct Block_byref *forwarding;
+    struct Block_byref *forwarding; // 在栈中指向自己，Block执行copy后指向堆中的byref
     volatile int32_t flags; // contains ref count
     uint32_t size;
 };
@@ -319,9 +320,9 @@ enum {
 // Values for _Block_object_assign() and _Block_object_dispose() parameters
 enum {
     // see function implementation for a more complete description of these fields and combinations
-    BLOCK_FIELD_IS_OBJECT   =  3,  // id, NSObject, __attribute__((NSObject)), block, ...
-    BLOCK_FIELD_IS_BLOCK    =  7,  // a block variable
-    BLOCK_FIELD_IS_BYREF    =  8,  // the on stack structure holding the __block variable
+    BLOCK_FIELD_IS_OBJECT   =  3,  // id, NSObject, __attribute__((NSObject)), block, ... 表示block内部引用了一个对象
+    BLOCK_FIELD_IS_BLOCK    =  7,  // a block variable，表示在 Block 中引用了其他的 Block
+    BLOCK_FIELD_IS_BYREF    =  8,  // the on stack structure holding the __block variable，表示__block修饰的对象
     BLOCK_FIELD_IS_WEAK     = 16,  // declared __weak, only used in byref copy helpers
     BLOCK_BYREF_CALLER      = 128, // called from __block (byref) copy/dispose support routines.
 };

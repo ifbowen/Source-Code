@@ -7,15 +7,16 @@
 
 #import <Foundation/Foundation.h>
 
-/*
- 史上最详细的Block源码剖析
- https://www.jianshu.com/p/d96d27819679
+/* 
+ Block的实现、变量的捕获以及__block的作用
  */
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         NSObject *obj = [[NSObject alloc] init];
+        __block __weak NSObject *weakObj = obj;
         void (^block)(void) = ^{
-            NSLog(@"%@", obj);
+            NSLog(@"%@", weakObj);
         };
         block();
     }

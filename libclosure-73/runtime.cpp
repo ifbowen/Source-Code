@@ -7,6 +7,8 @@
  * @APPLE_LLVM_LICENSE_HEADER@
  */
 
+//史上最详细的Block源码剖析
+//https://www.jianshu.com/p/d96d27819679
 
 #include "Block_private.h"
 #include <string.h>
@@ -54,6 +56,7 @@ Internal Utilities
 static int32_t latching_incr_int(volatile int32_t *where) {
     while (1) {
         int32_t old_value = *where;
+        // 其引用计数达到最大，直接返回，需要三万多个指针指向，正常情况下不会出现
         if ((old_value & BLOCK_REFCOUNT_MASK) == BLOCK_REFCOUNT_MASK) {
             return BLOCK_REFCOUNT_MASK;
         }
@@ -86,18 +89,22 @@ static bool latching_incr_int_not_deallocating(volatile int32_t *where) {
 static bool latching_decr_int_should_deallocate(volatile int32_t *where) {
     while (1) {
         int32_t old_value = *where;
+        // 如果该block的引用计数过高(0xfffe)返回false不做处理
         if ((old_value & BLOCK_REFCOUNT_MASK) == BLOCK_REFCOUNT_MASK) {
             return false; // latched high
         }
+        // 如果该block的引用计数过低(0)返回false不做处理
         if ((old_value & BLOCK_REFCOUNT_MASK) == 0) {
             return false;   // underflow, latch low
         }
         int32_t new_value = old_value - 2;
         bool result = false;
+        // 如果其引用计数为2，则将其引用计数减，1即BLOCK_DEALLOCATING标明正在释放，返回true
         if ((old_value & (BLOCK_REFCOUNT_MASK|BLOCK_DEALLOCATING)) == 2) {
             new_value = old_value - 1;
             result = true;
         }
+        // 如果大于2则将其引用计数减2并返回false。
         if (OSAtomicCompareAndSwapInt(old_value, new_value, where)) {
             return result;
         }
@@ -194,30 +201,31 @@ void *_Block_copy(const void *arg) {
     
     // The following would be better done as a switch statement
     aBlock = (struct Block_layout *)arg;
-    if (aBlock->flags & BLOCK_NEEDS_FREE) {
+    if (aBlock->flags & BLOCK_NEEDS_FREE) { // 堆区
         // latches on high
         latching_incr_int(&aBlock->flags);
         return aBlock;
     }
-    else if (aBlock->flags & BLOCK_IS_GLOBAL) {
+    else if (aBlock->flags & BLOCK_IS_GLOBAL) { // 全局区
         return aBlock;
     }
-    else {
+    else { // 栈区
         // Its a stack block.  Make a copy.
         struct Block_layout *result =
-            (struct Block_layout *)malloc(aBlock->descriptor->size);
+            (struct Block_layout *)malloc(aBlock->descriptor->size); // 申请内存
         if (!result) return NULL;
-        memmove(result, aBlock, aBlock->descriptor->size); // bitcopy first
+        memmove(result, aBlock, aBlock->descriptor->size); // bitcopy first，拷贝数据
         
 #if __has_feature(ptrauth_calls)
         // Resign the invoke pointer as it uses address authentication.
         result->invoke = aBlock->invoke;
 #endif
-        // reset refcount
-        result->flags &= ~(BLOCK_REFCOUNT_MASK|BLOCK_DEALLOCATING);    // XXX not needed
-        result->flags |= BLOCK_NEEDS_FREE | 2;  // logical refcount 1
+        // 注:Block的引用计数以flags的后16位代表，以2为单位，每次递增2，1被BLOCK_DEALLOCATING正在释放占用。
+        // reset refcount，重设引用计数，
+        result->flags &= ~(BLOCK_REFCOUNT_MASK|BLOCK_DEALLOCATING);    // XXX not needed，引用计数清零
+        result->flags |= BLOCK_NEEDS_FREE | 2;  // logical refcount 1，将新Block标识为堆Block并将其引用计数置为2
         _Block_call_copy_helper(result, aBlock);
-        // Set isa last so memory analysis tools see a fully-initialized object.
+        // Set isa last so memory analysis tools see a fully-initialized object，将isa设置成_NSConcreteMallocBlock
         result->isa = _NSConcreteMallocBlock;
         return result;
     }

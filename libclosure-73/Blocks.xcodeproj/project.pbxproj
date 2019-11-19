@@ -72,6 +72,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4AE6EB8E2383DC53006ED648 /* mainObj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mainObj.cpp; sourceTree = "<group>"; };
+		4AE6EB902383DD97006ED648 /* mainBasic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mainBasic.cpp; sourceTree = "<group>"; };
+		4AE6EB922383DF47006ED648 /* mainStatic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mainStatic.cpp; sourceTree = "<group>"; };
+		4AE6EB942383DFFD006ED648 /* mainBlockObj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mainBlockObj.cpp; sourceTree = "<group>"; };
+		4AE6EB962383E12F006ED648 /* mainNone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mainNone.cpp; sourceTree = "<group>"; };
+		4AE6EB9A2383E6A9006ED648 /* mainWeak.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mainWeak.cpp; sourceTree = "<group>"; };
+		4AE6EC742383EFD1006ED648 /* mainGlobal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mainGlobal.cpp; sourceTree = "<group>"; };
+		4AE6EC782383FB3F006ED648 /* mainBlockBasic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mainBlockBasic.cpp; sourceTree = "<group>"; };
 		831D5ADF122788D500E4A1EC /* libclosure.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libclosure.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		96EF75961507C1CE00581A2E /* libclosure.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libclosure.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2AAC0C705546C1D00DB518D /* libsystem_blocks.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libsystem_blocks.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +169,14 @@
 			children = (
 				F39C762323772B1500043583 /* Debug-block.entitlements */,
 				F39C761C23772ADB00043583 /* main.m */,
+				4AE6EC742383EFD1006ED648 /* mainGlobal.cpp */,
+				4AE6EB9A2383E6A9006ED648 /* mainWeak.cpp */,
+				4AE6EB8E2383DC53006ED648 /* mainObj.cpp */,
+				4AE6EB902383DD97006ED648 /* mainBasic.cpp */,
+				4AE6EB922383DF47006ED648 /* mainStatic.cpp */,
+				4AE6EC782383FB3F006ED648 /* mainBlockBasic.cpp */,
+				4AE6EB942383DFFD006ED648 /* mainBlockObj.cpp */,
+				4AE6EB962383E12F006ED648 /* mainNone.cpp */,
 			);
 			path = "Debug-block";
 			sourceTree = "<group>";
@@ -405,6 +421,7 @@
 					"$(CONFIGURATION_BUILD_DIR)/usr/local/include/**",
 				);
 				INSTALL_PATH = /usr/lib/system;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"-nostdlib",
 					"-L/usr/lib/system/",
@@ -432,6 +449,7 @@
 					"$(CONFIGURATION_BUILD_DIR)/usr/local/include/**",
 				);
 				INSTALL_PATH = /usr/lib/system;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"-nostdlib",
 					"-L/usr/lib/system/",
@@ -659,7 +677,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -711,7 +729,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
