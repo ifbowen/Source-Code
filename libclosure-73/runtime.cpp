@@ -201,7 +201,7 @@ void *_Block_copy(const void *arg) {
     
     // The following would be better done as a switch statement
     aBlock = (struct Block_layout *)arg;
-    if (aBlock->flags & BLOCK_NEEDS_FREE) { // 堆区
+    if (aBlock->flags & BLOCK_NEEDS_FREE) { // 堆区，引用计数加1
         // latches on high
         latching_incr_int(&aBlock->flags);
         return aBlock;
@@ -483,7 +483,7 @@ void _Block_object_assign(void *destArg, const void *object, const int flags) {
          __block void (^object)(void);
          [^{ object; } copy];
          ********/
-
+        // 在MRC情况下，__block修饰的对象引用计数不会加1
         *dest = object;
         break;
 

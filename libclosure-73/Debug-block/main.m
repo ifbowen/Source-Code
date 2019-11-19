@@ -7,16 +7,16 @@
 
 #import <Foundation/Foundation.h>
 
-/* 
+/*
+ MRC：-fno-objc-arc
  Block的实现、变量的捕获以及__block的作用
  */
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        NSObject *obj = [[NSObject alloc] init];
-        __block __weak NSObject *weakObj = obj;
+        __block NSObject *obj = [[NSObject alloc] init];
         void (^block)(void) = ^{
-            NSLog(@"%@", weakObj);
+            NSLog(@"%@", obj);
         };
         block();
     }
