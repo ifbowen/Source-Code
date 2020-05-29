@@ -52,6 +52,7 @@
 		4A3FD925247BC9FC00B1CC3C /* Block_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A3FD917247BC9FC00B1CC3C /* Block_private.h */; };
 		4A3FDFBD247BD0AD00B1CC3C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A3FDFBC247BD0AD00B1CC3C /* main.m */; };
 		4A3FDFC4247BD12D00B1CC3C /* libobjc.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC0630554660B00DB518D /* libobjc.A.dylib */; };
+		4ACE33BB247CB90500247305 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACE33BA247CB90500247305 /* Person.m */; };
 		6E1475EA21DFDB1B001357EA /* llvm-AlignOf.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E1475E521DFDB1A001357EA /* llvm-AlignOf.h */; };
 		6E1475EB21DFDB1B001357EA /* llvm-DenseMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E1475E621DFDB1B001357EA /* llvm-DenseMap.h */; };
 		6E1475EC21DFDB1B001357EA /* llvm-DenseMapInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E1475E721DFDB1B001357EA /* llvm-DenseMapInfo.h */; };
@@ -207,6 +208,8 @@
 		4A3FDFBA247BD0AD00B1CC3C /* DebugObjc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DebugObjc; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A3FDFBC247BD0AD00B1CC3C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4A3FDFC1247BD0BE00B1CC3C /* DebugObjc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DebugObjc.entitlements; sourceTree = "<group>"; };
+		4ACE33B9247CB90500247305 /* Person.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		4ACE33BA247CB90500247305 /* Person.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		6E1475E521DFDB1A001357EA /* llvm-AlignOf.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; name = "llvm-AlignOf.h"; path = "runtime/llvm-AlignOf.h"; sourceTree = "<group>"; tabWidth = 2; };
 		6E1475E621DFDB1B001357EA /* llvm-DenseMap.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; name = "llvm-DenseMap.h"; path = "runtime/llvm-DenseMap.h"; sourceTree = "<group>"; tabWidth = 2; };
 		6E1475E721DFDB1B001357EA /* llvm-DenseMapInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; name = "llvm-DenseMapInfo.h"; path = "runtime/llvm-DenseMapInfo.h"; sourceTree = "<group>"; tabWidth = 2; };
@@ -501,6 +504,8 @@
 			children = (
 				4A3FDFC1247BD0BE00B1CC3C /* DebugObjc.entitlements */,
 				4A3FDFBC247BD0AD00B1CC3C /* main.m */,
+				4ACE33B9247CB90500247305 /* Person.h */,
+				4ACE33BA247CB90500247305 /* Person.m */,
 			);
 			path = DebugObjc;
 			sourceTree = "<group>";
@@ -855,6 +860,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4ACE33BB247CB90500247305 /* Person.m in Sources */,
 				4A3FDFBD247BD0AD00B1CC3C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

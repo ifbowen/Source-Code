@@ -6,10 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Person.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        NSObject *ob = [[NSObject alloc] init];
+        [Person run];
     }
     return 0;
 }
