@@ -16,11 +16,7 @@ int main(int argc, const char * argv[]) {
         // objc_initWeak
         Person *p = [[Person alloc] init];
         __weak Person *pp = p;
-        __weak Person *ppp = p;
-        __weak Person *pppp = p;
-        __weak Person *ppppp = p;
-        __weak Person *pppppp = p;
-        NSLog(@"%@", pp);
+        NSLog(@"%@--%p", pp, &pp);
     }
     return 0;
 }
